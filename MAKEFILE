@@ -1,0 +1,100 @@
+###############################################
+# COLORS
+###############################################
+GREEN=\033[0;32m
+YELLOW=\033[1;33m
+RESET=\033[0m
+
+###############################################
+# DOCKER COMMANDS
+###############################################
+
+.PHONY: start stop logs rebuild prune
+
+# Uses start.sh to safely start Docker
+start:
+	@echo "$(GREEN)🚀 Starting FFT App (development)...$(RESET)"
+	@bash ./start.sh
+
+stop:
+	@echo "$(YELLOW)🛑 Stopping Docker containers...$(RESET)"
+	@docker compose down
+
+logs:
+	@echo "$(YELLOW)📜 Following logs... (Ctrl+C to exit)$(RESET)"
+	@docker compose logs -f
+
+rebuild:
+	@echo "$(GREEN)🔧 Rebuilding containers without cache...$(RESET)"
+	@docker compose build --no-cache
+
+prune:
+	@echo "$(YELLOW)🔥 Removing dangling Docker resources...$(RESET)"
+	@docker system prune -f
+
+###############################################
+# BACKEND (FastAPI) LOCAL COMMANDS
+###############################################
+
+.PHONY: backend-install backend-run backend-test
+
+backend-install:
+	@echo "$(GREEN)📦 Installing backend dependencies...$(RESET)"
+	@pip install -r backend/requirements.txt
+
+backend-run:
+	@echo "$(GREEN)🚀 Running backend locally...$(RESET)"
+	@cd backend && uvicorn main:app --reload --port 8000
+
+backend-test:
+	@echo "$(GREEN)🧪 Running backend tests (none defined yet)...$(RESET)"
+
+###############################################
+# FRONTEND (Next.js) LOCAL COMMANDS
+###############################################
+
+.PHONY: frontend-install frontend-run frontend-build
+
+frontend-install:
+	@echo "$(GREEN)📦 Installing frontend dependencies...$(RESET)"
+	@cd frontend && npm install
+
+frontend-run:
+	@echo "$(GREEN)🚀 Running frontend locally...$(RESET)"
+	@cd frontend && npm run dev
+
+frontend-build:
+	@echo "$(GREEN)🏗️ Building frontend...$(RESET)"
+	@cd frontend && npm run build
+
+###############################################
+# LINTING & FORMATTING
+###############################################
+
+.PHONY: lint format
+
+lint:
+	@echo "$(GREEN)🔍 Linting frontend and backend...$(RESET)"
+	@cd frontend && npm run lint --if-present
+	@echo "$(GREEN)🔍 Backend lint (add flake8 if desired)...$(RESET)"
+
+format:
+	@echo "$(GREEN)✨ Formatting frontend and backend...$(RESET)"
+	@cd frontend && npm run format --if-present
+	@echo "$(GREEN)✨ Backend formatting (add black if desired)...$(RESET)"
+
+###############################################
+# CLEAN / UTILITY
+###############################################
+
+.PHONY: clean tree
+
+clean:
+	@echo "$(YELLOW)🧹 Cleaning project (pycache, node_modules, build)...$(RESET)"
+	@find . -type d -name "__pycache__" -exec rm -r {} +
+	@rm -rf frontend/.next
+	@rm -rf frontend/node_modules
+
+tree:
+	@echo "$(GREEN)🌳 Project structure:$(RESET)"
+	@tree -L 3

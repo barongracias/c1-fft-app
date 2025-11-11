@@ -1,2 +1,92 @@
 fft_venv/
-frontend/.env.local
+
+###############################################
+# SYSTEM / OS FILES
+###############################################
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+###############################################
+# PYTHON / BACKEND
+###############################################
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual environments
+fft_venv/
+venv/
+ENV/
+.env
+*.env
+
+# pip logs
+pip-log.txt
+pip-delete-this-directory.txt
+pyvenv.cfg
+
+###############################################
+# NODE / FRONTEND
+###############################################
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Next.js build outputs
+.next/
+out/
+build/
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# Environment files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# TypeScript build info
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel
+.vercel/
+
+###############################################
+# DOCKER
+###############################################
+# Ignore Docker images and volumes locally
+docker-compose.override.yml
+*.log
+*.pid
+
+###############################################
+# EDITORS / IDEs
+###############################################
+# VSCode
+.vscode/
+
+# JetBrains
+.idea/
+
+###############################################
+# MISC / BUILD ARTIFACTS
+###############################################
+*.pem
+*.log
